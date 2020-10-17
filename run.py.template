@@ -1,0 +1,43 @@
+# ====================================================================================== #
+# Running FIM calculation on cluster.
+# Splits the matrix elements as evenly as possible between MX_SERVER_NO servers.
+# Author: Eddie Lee, edlee@santafe.edu
+# ====================================================================================== #
+from pyutils.large_fim import *
+import pyutils.fim as pyfim
+import scipy.io as sio
+import time
+import sys
+import os
+import dill
+MX_SERVER_NO = MX_NODES
+
+
+if __name__=='__main__':
+    serverno = int(sys.argv[1])
+    inputmodel = sys.argv[2]
+    dr = inputmodel.split('.')[0]
+    assert 0<serverno<=MX_SERVER_NO
+    assert os.path.isfile(inputmodel), "Input file %s does not exist."%inputmodel
+    assert os.path.isdir(dr), "Save directory does not exist."
+
+    # load model. must initialize a template instance first
+    model = load_Coupling3(inputmodel)
+    n = model.n
+    
+    # set up calculation indices
+    allix = list(combinations(range(n*(n-1)), 2))
+    startix = int((serverno-1)/MX_SERVER_NO * len(allix))
+    endix = int(serverno/MX_SERVER_NO * len(allix))
+    off_diag_ix = allix[startix:endix]
+
+    # run calculation
+    t0 = time.perf_counter()
+    fim = model.maj_curvature(iprint=True, off_diag_ix=off_diag_ix)
+    print("Time to run: %1.2f s."%(time.perf_counter()-t0))
+   
+    # make sure file won't be overwritten
+    fname = f'{dr}/server_{serverno}_output.p'
+    while os.path.isfile(fname):
+        fname += '.next'
+    dill.dump({'fim':fim}, open(fname, 'wb'), -1)

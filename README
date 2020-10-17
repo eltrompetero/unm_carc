@@ -1,0 +1,28 @@
+# ============================================================================ #
+# README for distributing FIM calculation across nodes using qsub.
+# Author: Eddie Lee, edlee@santafe.edu
+# 2020-10-16
+# ============================================================================ #
+
+First, move everything onto cluster using `setup_gibbs.sh` or `setup_wheeler.sh`
+depending the desired cluster. This copies files into the shared /home/edlee
+directory as well as specifies the max number of separate nodes to use to run
+jobs.
+
+You can run the model setup (since Intel and AMD pickles are serialized
+differently) with `bash run_pickle.sh`.
+
+Then, everything is automated through `bash run.sh ####`. It distributes files
+to the nodes and submits the jobs to each cluster separately. It needs to be
+given the name of the model pickle without the ".p" suffix.
+
+#===============#
+Table of contents
+#===============#
+`jobfile_template.sh` contains settings for using PBS and qsub.
+`run.py` contains the code that is to be run.
+
+The files are set up somewhat differently on the cluster. The shell program and
+Python program are all copied into a single directory and the program is run
+from there, whereas here there is a separate directory for automating the use of
+clusters.
