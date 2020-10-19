@@ -13,7 +13,9 @@ start_job () {
     sed -i 's/INPUTFILE/'"${2}.p"'/' jobfile.sh\~
 
     # make directory where results will be saved
-    mkdir $2
+    if [ ! -d $2 ]; then
+      mkdir $2
+    fi
 
     # call qsub
     qsub -V jobfile.sh\~
@@ -36,5 +38,6 @@ else
   do
     echo "start_job $i $1"
     start_job $i $1
+    sleep .5
   done
 fi

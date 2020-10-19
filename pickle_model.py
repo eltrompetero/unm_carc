@@ -3,5 +3,5 @@
 from pyutils import *
 
 
-soln = MESolution('171017_154139', 0, 'a', 'v', 'B')
-soln.setup_model(100_000)
+soln = MESolution('171017_154139', 0, 'a', 'xi', 'A')
+soln.setup_model(1_000_000)

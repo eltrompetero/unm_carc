@@ -4,7 +4,7 @@
 # Author: Eddie Lee, edlee@santafe.edu
 # ====================================================================================== #
 from pyutils.large_fim import *
-import pyutils.fim as pyfim
+from pyutils.utils import load_Coupling3
 import scipy.io as sio
 import time
 import sys
