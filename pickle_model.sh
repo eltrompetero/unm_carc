@@ -1,10 +1,11 @@
-#!/bin/bash
 # Modified from Nate's howto with Scoville.
 # Author: Eddie Lee, edlee@santafe.edu
 
+#!/bin/bash
+
 # First we provide the settings for the queueing system:
 #PBS -l nodes=1
-#PBS -l walltime=36:00:00
+#PBS -l walltime=24:00:00
 #PBS -N EDDIE_FIM_SETUP
 #PBS -o ${PBS_JOBNAME}${PBS_NODENUM}.log
 #PBS -j oe
@@ -28,13 +29,16 @@
 if [[ `hostname` == *"gibbs"* ]]; then
   echo "Loading miniconda on Gibbs."
   module load miniconda3-4.8.2-gcc-10.2.0-zu7qwdd
+  source activate scotus4
+  cd ~/Dropbox/Research/scotus4/py
 elif [[ `hostname` = *"wheeler"* ]]; then
   module load miniconda3-4.7.12.1-gcc-4.8.5-lmtvtik
   echo "Loading miniconda on Wheeler."
+  source activate scotus4
+  cd ~/Dropbox/Research/scotus4/py
+elif [[ `hostname` = "powerhouse" ]]; then
+  :
 fi
-
-source activate scotus4
-cd ~/Dropbox/Research/scotus4/py
 
 # now run whathever executable and parameters you want.
 # this sample call to the echo command will just produce

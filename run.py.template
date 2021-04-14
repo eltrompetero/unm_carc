@@ -4,7 +4,7 @@
 # Author: Eddie Lee, edlee@santafe.edu
 # ====================================================================================== #
 from pyutils.large_fim import *
-from pyutils.utils import load_Coupling3
+from pyutils.utils import load_Coupling3, load_CanonicalCoupling3
 import scipy.io as sio
 import time
 import sys
@@ -22,6 +22,7 @@ if __name__=='__main__':
     assert os.path.isdir(dr), "Save directory does not exist."
 
     # load model. must initialize a template instance first
+    # this is for the pairwise natural perturbation
     model = load_Coupling3(inputmodel)
     n = model.n
     
@@ -30,6 +31,16 @@ if __name__=='__main__':
     startix = int((serverno-1)/MX_SERVER_NO * len(allix))
     endix = int(serverno/MX_SERVER_NO * len(allix))
     off_diag_ix = allix[startix:endix]
+
+    # this is for the pairwise canonical perturbation
+    #model = load_CanonicalCoupling3(inputmodel)
+    #n = model.n
+    #
+    ## set up calculation indices
+    #allix = list(combinations(range(n*(n-1)//2), 2))
+    #startix = int((serverno-1)/MX_SERVER_NO * len(allix))
+    #endix = int(serverno/MX_SERVER_NO * len(allix))
+    #off_diag_ix = allix[startix:endix]
 
     # run calculation
     t0 = time.perf_counter()

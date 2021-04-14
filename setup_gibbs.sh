@@ -10,8 +10,8 @@ fi
 
 cp run.py.template run.py
 cp run.sh.template run.sh
-sed -i 's/MX_NODES/100/' run.py
-sed -i 's/MX_NODES/100/' run.sh
+sed -i 's/MX_NODES/50/' run.py
+sed -i 's/MX_NODES/50/' run.sh
 
 # Sync server for computation.
 # All the files will be mirrored into the corresponding py directory including the python script files from
