@@ -1,13 +1,14 @@
 # ============================================================================ #
-# README for distributing FIM calculation across nodes using qsub.
-# Author: Eddie Lee, edlee@santafe.edu
-# 2020-10-16
+# README for automating FIM calculation both across Torque nodes in UNM cluster
+# and locally with powerhouse.
+# 
+# Author: Eddie Lee, edlee@csh.ac.at
+# 2021-04-20
 # ============================================================================ #
-
-First, move everything onto cluster using `setup_gibbs.sh` or `setup_wheeler.sh`
-depending the desired cluster. This copies files into the shared /home/edlee
-directory as well as specifies the max number of separate nodes to use to run
-jobs.
+First, move everything onto the cluster using `setup_gibbs.sh` or
+`setup_wheeler.sh` depending the desired cluster. This copies files into the
+shared `/home/edlee` directory as well as specifies the max number of separate
+nodes to use to run jobs.
 
 You can run the model setup (since Intel and AMD pickles are serialized
 differently) with `bash run_pickle.sh`.
@@ -16,11 +17,20 @@ Then, everything is automated through `bash run.sh ####`. It distributes files
 to the nodes and submits the jobs to each cluster separately. It needs to be
 given the name of the model pickle without the ".p" suffix.
 
+On the client end, you can use run `fetch.py` to automate file retrieval and
+caching into the correct directory in cache. Note that this relies on `fetch.sh`
+and only handles the Gibbs server.
+
+Calling the shell files directly in powerhouse is also supported using hostname
+checking.
+
+
 #===============#
 Table of contents
 #===============#
 `jobfile_template.sh` contains settings for using PBS and qsub.
 `run.py` contains the code that is to be run.
+`run.sh` automates the calculation
 
 The files are set up somewhat differently on the cluster. The shell program and
 Python program are all copied into a single directory and the program is run

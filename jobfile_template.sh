@@ -37,12 +37,16 @@ elif [[ `hostname` = *"wheeler"* ]]; then
   echo "Loading miniconda on Wheeler."
   source activate scotus4
   cd ~/Dropbox/Research/scotus4/py
-elif [[ `hostname` = "powerhouse" ]]; then
+elif [ `hostname` = "powerhouse" ] || [ `hostname` = "maul" ]; then
   :
+elif [ `hostname` = "jalapeno" ] || [ `hostname` = "habanero" ] || \
+     [ `hostname` = "pequin" ] || [ `hostname` = "serrano" ]; then
+  source activate scotus4
+  cd ~/Dropbox/Research/scotus4/py
 fi
 
 # now run whathever executable and parameters you want.
 # this sample call to the echo command will just produce
 # some output that is then stored to log
 echo JOB_NO
-python run.py JOB_NO INPUTFILE
+python run.py JOB_NO INPUTFILE CAN

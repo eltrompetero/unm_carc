@@ -38,6 +38,12 @@ elif [[ `hostname` = *"wheeler"* ]]; then
   cd ~/Dropbox/Research/scotus4/py
 elif [[ `hostname` = "powerhouse" ]]; then
   :
+elif [[ `hostname` = "maul" ]]; then
+  :
+elif [ `hostname` = "jalapeno" ] || [ `hostname` = "habanero" ] || \
+     [ `hostname` = "pequin" ] || [ `hostname` = "serrano" ]; then
+  conda activate scotus4
+  cd ~/Dropbox/Research/scotus4/py
 fi
 
 # now run whathever executable and parameters you want.

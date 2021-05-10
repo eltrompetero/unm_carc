@@ -13,34 +13,39 @@ import dill
 MX_SERVER_NO = MX_NODES
 
 
+
 if __name__=='__main__':
     serverno = int(sys.argv[1])
     inputmodel = sys.argv[2]
+    can = sys.argv[3]
+
     dr = inputmodel.split('.')[0]
     assert 0<serverno<=MX_SERVER_NO
     assert os.path.isfile(inputmodel), "Input file %s does not exist."%inputmodel
     assert os.path.isdir(dr), "Save directory does not exist."
+    assert can=='0' or can=='1', f"Bad option for canonical boolean: {can}"
 
-    # load model. must initialize a template instance first
-    # this is for the pairwise natural perturbation
-    model = load_Coupling3(inputmodel)
-    n = model.n
-    
-    # set up calculation indices
-    allix = list(combinations(range(n*(n-1)), 2))
-    startix = int((serverno-1)/MX_SERVER_NO * len(allix))
-    endix = int(serverno/MX_SERVER_NO * len(allix))
-    off_diag_ix = allix[startix:endix]
-
-    # this is for the pairwise canonical perturbation
-    #model = load_CanonicalCoupling3(inputmodel)
-    #n = model.n
-    #
-    ## set up calculation indices
-    #allix = list(combinations(range(n*(n-1)//2), 2))
-    #startix = int((serverno-1)/MX_SERVER_NO * len(allix))
-    #endix = int(serverno/MX_SERVER_NO * len(allix))
-    #off_diag_ix = allix[startix:endix]
+    if can=='0':
+        # load model. must initialize a template instance first
+        # this is for the pairwise natural perturbation
+        model = load_Coupling3(inputmodel)
+        n = model.n
+        
+        # set up calculation indices
+        allix = list(combinations(range(n*(n-1)), 2))
+        startix = int((serverno-1)/MX_SERVER_NO * len(allix))
+        endix = int(serverno/MX_SERVER_NO * len(allix))
+        off_diag_ix = allix[startix:endix]
+    else:
+        # this is for the pairwise canonical perturbation
+        model = load_CanonicalCoupling3(inputmodel)
+        n = model.n
+        
+        # set up calculation indices
+        allix = list(combinations(range(n*(n-1)//2), 2))
+        startix = int((serverno-1)/MX_SERVER_NO * len(allix))
+        endix = int(serverno/MX_SERVER_NO * len(allix))
+        off_diag_ix = allix[startix:endix]
 
     # run calculation
     t0 = time.perf_counter()

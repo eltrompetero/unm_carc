@@ -5,9 +5,7 @@
 # ====================================================================================== #
 from pyutils import *
 
-
-soln = CanonicalCouplingSolution('NAME', DATA, 'SOLN', 'MCSAMP', 'SUBSET', coarse_grain_type=2)
+# capitalized names will be replaced with regex by run_pickle.sh
+soln = TYPESolution('NAME', DATA, 'SOLN', 'MCSAMP', 'SUBSET',
+                    coarse_grain_type=CG_TYPE)
 soln.setup_model(n_samples=100_000)
-
-#soln = CoupSolution('NAME', DATA, 'SOLN', 'MCSAMP', 'SUBSET', coarse_grain_type=2)
-#soln.setup_model(n_samples=100_000)
