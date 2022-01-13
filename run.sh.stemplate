@@ -1,0 +1,47 @@
+# ====================================================================================== #
+# Author: Eddie Lee, edlee@csh.ac.at
+# 2021-05-13
+# ====================================================================================== #
+#!/bin/bash
+
+start_job () {
+  tmpfile=$(mktemp -p ./)
+
+  # fill in temp sjobfile directions
+  cp sjobfile_template.sh ${tmpfile}.sjobfile.sh\~
+  sed -i 's/JOB_NO/'"${1}"'/' ${tmpfile}.sjobfile.sh\~
+  sed -i 's/INPUTFILE/'"${2}.p"'/' ${tmpfile}.sjobfile.sh\~
+  sed -i 's/CAN/'"${3}"'/' ${tmpfile}.sjobfile.sh\~
+  sed -i 's/NAME/'"${2}_${1}"'/' ${tmpfile}.sjobfile.sh\~
+
+  # make directory where results will be saved
+  if [ ! -d $2 ]; then
+    mkdir $2
+  fi
+
+  # start job
+  sbatch ${tmpfile}.sjobfile.sh\~
+
+  # delete temp run files
+  rm ${tmpfile} ${tmpfile}.sjobfile.sh\~
+}
+
+if [ ! -f "${1}.p" ]; then
+    echo "Error: File $1.p does not exist."
+    exit 1
+fi
+
+if [ "$1" == "--dry-run" ]
+then
+  for i in {1..MX_NODES}
+  do
+    echo "start_job $i $2 $3"
+  done
+else
+  for i in {1..MX_NODES}
+  do
+    echo "start_job $i $1 $2"
+    start_job $i $1 $2
+    sleep 1 
+  done
+fi
