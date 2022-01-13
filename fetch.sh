@@ -1,7 +1,7 @@
-# Get pickles from Gibbs UNM server 
+# Get pickles from server
 # 
 # Author: Eddie Lee, edlee@csh.ac.at
 
 #!/bin/bash
 
-rsync -azu --progress gibbs:~/Dropbox/Research/scotus4/py/$1 cache/
+rsync -azu --progress $2:~/Dropbox/Research/scotus4/py/$1 cache/

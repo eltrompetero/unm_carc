@@ -7,6 +7,7 @@
 
 if [[ $# -ne 3 ]]; then
   echo "Illegal number of args" >&2
+fi
 
 DR=$1
 BASE=$2

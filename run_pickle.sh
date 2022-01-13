@@ -28,6 +28,6 @@ if [[ `hostname` = "powerhouse" ]]; then
   bash ${tmpfile}.pickle_model.sh
 elif [[ `hostname` = "maul" ]]; then
   bash ${tmpfile}.pickle_model.sh
-else
+elif [[ `hostname` = "gibbs" ]]; then
   qsub -V ${tmpfile}.pickle_model.sh
 fi
